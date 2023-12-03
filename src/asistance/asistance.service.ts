@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAsistanceInput } from './dto/create-asistance.input';
 import { UpdateAsistanceInput } from './dto/update-asistance.input';
+import {PrismaClient} from "@prisma/client";
+import {PrismaService} from "../prisma/prisma.service";
 
 @Injectable()
 export class AsistanceService {
+
+  constructor(private prisma: PrismaService) {}
+
   create(createAsistanceInput: CreateAsistanceInput) {
     return 'This action adds a new asistance';
   }
