@@ -1,31 +1,39 @@
-import { Injectable } from '@nestjs/common';
-import { CreateInscriptionInput } from './dto/create-inscription.input';
-import { UpdateInscriptionInput } from './dto/update-inscription.input';
-import {PrismaClient} from "@prisma/client";
+import {Injectable} from '@nestjs/common';
+import {Prisma} from "@prisma/client";
 import {PrismaService} from "../prisma/prisma.service";
 
 @Injectable()
 export class InscriptionService {
 
-  constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService) {
+    }
 
-  create(createInscriptionInput: CreateInscriptionInput) {
-    return 'This action adds a new inscription';
-  }
+    async create(data: Prisma.InscriptionCreateInput) {
+        return this.prisma.inscription.create({data})
+    }
 
-  findAll() {
-    return `This action returns all inscription`;
-  }
+    async findAll(params: {
+        skip?: number
+        take?: number
+        cursor?: Prisma.InscriptionWhereUniqueInput
+        where?: Prisma.InscriptionWhereInput
+        orderBy?: Prisma.InscriptionOrderByWithRelationInput
+    }) {
+        return this.prisma.inscription.findMany(params)
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} inscription`;
-  }
+    async findOne(where: Prisma.InscriptionWhereUniqueInput) {
+        return this.prisma.inscription.findUnique({where})
+    }
 
-  update(id: number, updateInscriptionInput: UpdateInscriptionInput) {
-    return `This action updates a #${id} inscription`;
-  }
+    async update(params: {
+        where: Prisma.InscriptionWhereUniqueInput
+        data: Prisma.InscriptionUpdateInput
+    }) {
+        return this.prisma.inscription.update(params)
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} inscription`;
-  }
+    async remove(where: Prisma.InscriptionWhereUniqueInput) {
+        return this.prisma.inscription.delete({where});
+    }
 }
