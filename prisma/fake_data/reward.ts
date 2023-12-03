@@ -5,7 +5,7 @@ export async function generateFakeReward(event_id: string) {
 
     const client = prisma
 
-    const participants = await client.asistance.findMany({
+    const participants = await client.assistance.findMany({
         where: {
             inscription: {
                 event: {

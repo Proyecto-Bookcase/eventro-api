@@ -47,10 +47,10 @@ model Inscription {
 
   date DateTime
 
-  asistence Asistance?
+  asistence Assistance?
 }
 
-model Asistance {
+model Assistance {
   id String @id @default(uuid())
 
   inscription_id String      @unique

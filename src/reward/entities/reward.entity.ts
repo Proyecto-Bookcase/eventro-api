@@ -1,7 +1,16 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import {Field, ObjectType} from '@nestjs/graphql';
+import {User} from "../../user/entities/user.entity";
+import {Event} from "../../event/entities/event.entity";
 
 @ObjectType()
 export class Reward {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+
+    @Field()
+    id: string;
+
+    @Field(type => Event)
+    event: Event
+
+    @Field(type => User)
+    winner: User
 }

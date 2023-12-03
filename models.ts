@@ -24,10 +24,10 @@ export interface InscriptionModel {
     user_id: string
     event_id: string
     date: string
-    asistance_id: string | null
+    assistance_id: string | null
 }
 
-export interface AsistanceModel {
+export interface AssistanceModel {
     id: string
     inscription_id: string
     date: string

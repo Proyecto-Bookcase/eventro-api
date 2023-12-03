@@ -11,16 +11,16 @@ ALTER TABLE "Asistence" DROP CONSTRAINT "Asistence_inscription_id_fkey";
 DROP TABLE "Asistence";
 
 -- CreateTable
-CREATE TABLE "Asistance" (
+CREATE TABLE "Assistance" (
     "id" TEXT NOT NULL,
     "inscription_id" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Asistance_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Assistance_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Asistance_inscription_id_key" ON "Asistance"("inscription_id");
+CREATE UNIQUE INDEX "Assistance_inscription_id_key" ON "Assistance"("inscription_id");
 
 -- AddForeignKey
-ALTER TABLE "Asistance" ADD CONSTRAINT "Asistance_inscription_id_fkey" FOREIGN KEY ("inscription_id") REFERENCES "Inscription"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Assistance" ADD CONSTRAINT "Assistance_inscription_id_fkey" FOREIGN KEY ("inscription_id") REFERENCES "Inscription"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
