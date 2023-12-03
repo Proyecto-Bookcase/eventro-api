@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String
+  password String
+
+  events      Event[]
+  Inscription Inscription[]
+  Reward      Reward[]
+}
+
+model Event {
+  id String @id @default(uuid())
+
+  organizer_id String
+  organizer    User   @relation(fields: [organizer_id], references: [id])
+
+  name        String
+  description String
+  date        DateTime
+  location    String
+
+  Inscription Inscription[]
+  Reward      Reward[]
+}
+
+model Inscription {
+  id String @id @default(uuid())
+
+  user_id String
+  user    User   @relation(fields: [user_id], references: [id])
+
+  event_id String
+  event    Event  @relation(fields: [event_id], references: [id])
+
+  date DateTime
+
+  asistence Asistance?
+}
+
+model Asistance {
+  id String @id @default(uuid())
+
+  inscription_id String      @unique
+  inscription    Inscription @relation(fields: [inscription_id], references: [id])
+
+  date DateTime
+}
+
+model Reward {
+  id String @id @default(uuid())
+
+  event_id String
+  event    Event  @relation(fields: [event_id], references: [id])
+
+  winner_id String
+  winner    User   @relation(fields: [winner_id], references: [id])
+}
