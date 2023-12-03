@@ -1,5 +1,4 @@
-import {Field, GraphQLISODateTime, ObjectType} from '@nestjs/graphql';
-import {GraphQLString} from "graphql/type";
+import {Field, ID, ObjectType} from '@nestjs/graphql';
 import {User} from "../../user/entities/user.entity";
 import {Inscription} from "../../inscription/entities/inscription.entity";
 import {Reward} from "../../reward/entities/reward.entity";
@@ -7,7 +6,7 @@ import {Reward} from "../../reward/entities/reward.entity";
 @ObjectType()
 export class Event {
 
-    @Field()
+    @Field(type => ID)
     id: string;
 
     @Field(type => User)
