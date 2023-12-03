@@ -9,27 +9,27 @@ export class InscriptionResolver {
   constructor(private readonly inscriptionService: InscriptionService) {}
 
   @Mutation(() => Inscription)
-  createInscription(@Args('createInscriptionInput') createInscriptionInput: CreateInscriptionInput) {
+  async createInscription(@Args('createInscriptionInput') createInscriptionInput: CreateInscriptionInput) {
     return //this.inscriptionService.create(createInscriptionInput);
   }
 
   @Query(() => [Inscription], { name: 'inscriptions' })
-  findAll() {
+  async findAll() {
     return //this.inscriptionService.findAll();
   }
 
   @Query(() => Inscription, { name: 'inscription' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  async findOne(@Args('id', { type: () => Int }) id: number) {
     return //this.inscriptionService.findOne(id);
   }
 
   @Mutation(() => Inscription)
-  updateInscription(@Args('updateInscriptionInput') updateInscriptionInput: UpdateInscriptionInput) {
+  async updateInscription(@Args('updateInscriptionInput') updateInscriptionInput: UpdateInscriptionInput) {
     return //this.inscriptionService.update(updateInscriptionInput.id, updateInscriptionInput);
   }
 
   @Mutation(() => Inscription)
-  removeInscription(@Args('id', { type: () => Int }) id: number) {
+  async removeInscription(@Args('id', { type: () => Int }) id: number) {
     return //this.inscriptionService.remove(id);
   }
 }
