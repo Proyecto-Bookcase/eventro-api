@@ -1,35 +1,53 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { EventService } from './event.service';
-import { Event } from './entities/event.entity';
-import { CreateEventInput } from './dto/create-event.input';
-import { UpdateEventInput } from './dto/update-event.input';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {EventService} from './event.service';
+import {Event} from './entities/event.entity';
+import {CreateEventInput} from "./dto/create-event.input";
+import {UpdateEventInput} from "./dto/update-event.input";
 
 @Resolver(() => Event)
 export class EventResolver {
-  constructor(private readonly eventService: EventService) {}
+    constructor(private readonly eventService: EventService) {
+    }
 
-  @Mutation(() => Event)
-  createEvent(@Args('createEventInput') createEventInput: CreateEventInput) {
-    return this.eventService.create(createEventInput);
-  }
+    @Mutation(() => Event)
+    async createEvent(@Args('createEventInput') createEventInput: CreateEventInput) {
+        return await this.eventService.create({
+            name: createEventInput.name,
+            date: createEventInput.date,
+            description: createEventInput.description,
+            location: createEventInput.location,
+            organizer: {
+                connect: {
+                    id: createEventInput.organizer_id,
+                }
+            }
+        });
+    }
 
-  @Query(() => [Event], { name: 'event' })
-  findAll() {
-    return this.eventService.findAll();
-  }
+    @Query(() => [Event], {name: 'events'})
+    findAll() {
+        return this.eventService.findAll();
+    }
 
-  @Query(() => Event, { name: 'event' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.eventService.findOne(id);
-  }
+    @Query(() => Event, {name: 'event'})
+    findOne(@Args('id', {type: () => String}) id: string) {
+        return this.eventService.findOne({id});
+    }
 
-  @Mutation(() => Event)
-  updateEvent(@Args('updateEventInput') updateEventInput: UpdateEventInput) {
-    return this.eventService.update(updateEventInput.id, updateEventInput);
-  }
+    @Mutation(() => Event)
+    updateEvent(
+        @Args('id') id: string,
+        @Args('updateEventInput') updateEventInput: UpdateEventInput
+    ) {
 
-  @Mutation(() => Event)
-  removeEvent(@Args('id', { type: () => Int }) id: number) {
-    return this.eventService.remove(id);
-  }
+        return this.eventService.update({
+            where: {id},
+            data: updateEventInput
+        });
+    }
+
+    @Mutation(() => Event)
+    removeEvent(@Args('id', {type: () => String}) id: string) {
+        return this.eventService.remove({id});
+    }
 }

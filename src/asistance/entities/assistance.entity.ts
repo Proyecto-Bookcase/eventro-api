@@ -1,15 +1,15 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import {Field, ID, ObjectType} from '@nestjs/graphql';
 import {Inscription} from "../../inscription/entities/inscription.entity";
 
 @ObjectType()
 export class Assistance {
 
-  @Field()
-  id: string;
+    @Field(type => ID)
+    id: string;
 
-  @Field(type=>Inscription)
-  inscription: Inscription
+    @Field(type => Inscription)
+    inscription: Inscription
 
-  @Field()
-  date: Date
+    @Field()
+    date: Date
 }

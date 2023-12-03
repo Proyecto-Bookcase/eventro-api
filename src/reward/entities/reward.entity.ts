@@ -1,11 +1,11 @@
-import {Field, ObjectType} from '@nestjs/graphql';
+import {Field, ID, ObjectType} from '@nestjs/graphql';
 import {User} from "../../user/entities/user.entity";
 import {Event} from "../../event/entities/event.entity";
 
 @ObjectType()
 export class Reward {
 
-    @Field()
+    @Field(type => ID)
     id: string;
 
     @Field(type => Event)

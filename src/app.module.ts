@@ -13,7 +13,7 @@ import {ApolloDriver, ApolloDriverConfig} from "@nestjs/apollo";
 
     imports: [
         ConfigModule.forRoot({
-            envFilePath: '.env'
+            envFilePath: '.env',
         }),
         EventModule,
         UserModule,

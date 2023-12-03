@@ -1,31 +1,39 @@
-import { Injectable } from '@nestjs/common';
-import { CreateEventInput } from './dto/create-event.input';
-import { UpdateEventInput } from './dto/update-event.input';
-import {PrismaClient} from "@prisma/client";
+import {Injectable} from '@nestjs/common';
+import {Prisma} from "@prisma/client";
 import {PrismaService} from "../prisma/prisma.service";
 
 @Injectable()
 export class EventService {
 
-  constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService) {
+    }
 
-  create(createEventInput: CreateEventInput) {
-    return 'This action adds a new event';
-  }
+    async create(data: Prisma.EventCreateInput) {
+        return this.prisma.event.create({data});
+    }
 
-  findAll() {
-    return `This action returns all event`;
-  }
+    async findAll(params?: {
+        skip?: number
+        take?: number
+        cursor?: Prisma.EventWhereUniqueInput
+        where?: Prisma.EventWhereInput
+        orderBy?: Prisma.EventOrderByWithRelationInput
+    }) {
+        return this.prisma.event.findMany(params)
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} event`;
-  }
+    async findOne(where: Prisma.EventWhereUniqueInput) {
+        return this.prisma.event.findUnique({where});
+    }
 
-  update(id: number, updateEventInput: UpdateEventInput) {
-    return `This action updates a #${id} event`;
-  }
+    async update(params: {
+        where: Prisma.EventWhereUniqueInput
+        data: Prisma.EventUpdateInput
+    }) {
+        return this.prisma.event.update(params)
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} event`;
-  }
+    async remove(where: Prisma.EventWhereUniqueInput) {
+        return this.prisma.event.delete({where});
+    }
 }
