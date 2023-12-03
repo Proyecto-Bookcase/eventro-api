@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker/locale/es"
 import { prisma } from "prisma/client/prisma"
 
-export async function generateFakeAsistance(inscription_id: string) {
+export async function generateFakeAssistance(inscription_id: string) {
 
     const client = prisma
 
@@ -18,7 +18,7 @@ export async function generateFakeAsistance(inscription_id: string) {
         }
     })
 
-    const asistance = await client.asistance.create({
+    const assistance = await client.assistance.create({
         data: {
             inscription_id,
             date: faker.date.past({ refDate: date }),
@@ -27,5 +27,5 @@ export async function generateFakeAsistance(inscription_id: string) {
 
     await client.$disconnect()
 
-    return asistance
+    return assistance
 }

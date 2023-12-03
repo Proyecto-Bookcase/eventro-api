@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { generateFakeEvent } from './fake_data/event';
 import { generateFakeInscription } from './fake_data/inscription';
-import { generateFakeAsistance } from './fake_data/asistance';
+import { generateFakeAssistance } from './fake_data/assistance';
 import { generateFakeReward } from './fake_data/reward';
 import { faker } from '@faker-js/faker';
 import { generateFakeUser } from './fake_data/user';
@@ -26,7 +26,7 @@ export async function seed(amount: number) {
 
 
         let inscription_count = amount * 4
-        let asistance_count = Math.ceil(inscription_count * 0.85)
+        let assistance_count = Math.ceil(inscription_count * 0.85)
 
         for (let j = 0; j < inscription_count; j++) {
 
@@ -36,10 +36,10 @@ export async function seed(amount: number) {
         }
 
         const inscription_list = await prisma.inscription.findMany({ where: { event_id }, select: { id: true } })
-        const asistance = faker.helpers.arrayElements(inscription_list, asistance_count)
+        const assistance = faker.helpers.arrayElements(inscription_list, assistance_count)
 
-        for (const { id: inscription_id } of asistance) {
-            await generateFakeAsistance(inscription_id)
+        for (const { id: inscription_id } of assistance) {
+            await generateFakeAssistance(inscription_id)
         }
 
         await generateFakeReward(event_id)
