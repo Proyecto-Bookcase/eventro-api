@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRewardInput } from './dto/create-reward.input';
 import { UpdateRewardInput } from './dto/update-reward.input';
+import {PrismaClient} from "@prisma/client";
+import {PrismaService} from "../prisma/prisma.service";
 
 @Injectable()
 export class RewardService {
+
+  constructor(private prisma: PrismaService) {}
   create(createRewardInput: CreateRewardInput) {
     return 'This action adds a new reward';
   }

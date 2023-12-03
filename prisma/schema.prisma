@@ -12,8 +12,8 @@ datasource db {
 
 model User {
   id       String @id @default(uuid())
-  name     String
-  email    String
+  name     String @unique
+  email    String @unique
   password String
 
   events      Event[]
@@ -28,7 +28,7 @@ model Event {
   organizer    User   @relation(fields: [organizer_id], references: [id])
 
   name        String
-  description String
+  description String?
   date        DateTime
   location    String
 

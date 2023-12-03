@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker/locale/es"
-import { PrismaClient } from "@prisma/client"
 import { prisma } from "prisma/client/prisma"
 
 export async function generateFakeInscription(user_id: string, event_id: string) {
