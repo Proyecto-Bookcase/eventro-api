@@ -10,26 +10,26 @@ export class AssistanceResolver {
 
   @Mutation(() => Assistance)
   createAssistance(@Args('createAssistanceInput') createAssistanceInput: CreateAssistanceInput) {
-    return this.assistanceService.create(createAssistanceInput);
+    return //this.assistanceService.create(createAssistanceInput);
   }
 
-  @Query(() => [Assistance], { name: 'assistance' })
+  @Query(() => [Assistance], { name: 'assistants' })
   findAll() {
-    return this.assistanceService.findAll();
+    return //this.assistanceService.findAll();
   }
 
   @Query(() => Assistance, { name: 'assistance' })
   findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.assistanceService.findOne(id);
+    return //this.assistanceService.findOne(id);
   }
 
   @Mutation(() => Assistance)
   updateAssistance(@Args('updateAssistanceInput') updateAssistanceInput: UpdateAssistanceInput) {
-    return this.assistanceService.update(updateAssistanceInput.id, updateAssistanceInput);
+    return //this.assistanceService.update(updateAssistanceInput.id, updateAssistanceInput);
   }
 
   @Mutation(() => Assistance)
   removeAssistance(@Args('id', { type: () => Int }) id: number) {
-    return this.assistanceService.remove(id);
+    return //this.assistanceService.remove(id);
   }
 }

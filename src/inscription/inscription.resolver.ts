@@ -10,26 +10,26 @@ export class InscriptionResolver {
 
   @Mutation(() => Inscription)
   createInscription(@Args('createInscriptionInput') createInscriptionInput: CreateInscriptionInput) {
-    return this.inscriptionService.create(createInscriptionInput);
+    return //this.inscriptionService.create(createInscriptionInput);
   }
 
-  @Query(() => [Inscription], { name: 'inscription' })
+  @Query(() => [Inscription], { name: 'inscriptions' })
   findAll() {
-    return this.inscriptionService.findAll();
+    return //this.inscriptionService.findAll();
   }
 
   @Query(() => Inscription, { name: 'inscription' })
   findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.inscriptionService.findOne(id);
+    return //this.inscriptionService.findOne(id);
   }
 
   @Mutation(() => Inscription)
   updateInscription(@Args('updateInscriptionInput') updateInscriptionInput: UpdateInscriptionInput) {
-    return this.inscriptionService.update(updateInscriptionInput.id, updateInscriptionInput);
+    return //this.inscriptionService.update(updateInscriptionInput.id, updateInscriptionInput);
   }
 
   @Mutation(() => Inscription)
   removeInscription(@Args('id', { type: () => Int }) id: number) {
-    return this.inscriptionService.remove(id);
+    return //this.inscriptionService.remove(id);
   }
 }

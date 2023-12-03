@@ -10,26 +10,26 @@ export class RewardResolver {
 
   @Mutation(() => Reward)
   createReward(@Args('createRewardInput') createRewardInput: CreateRewardInput) {
-    return this.rewardService.create(createRewardInput);
+    return //this.rewardService.create(createRewardInput);
   }
 
-  @Query(() => [Reward], { name: 'reward' })
+  @Query(() => [Reward], { name: 'rewards' })
   findAll() {
-    return this.rewardService.findAll();
+    return //this.rewardService.findAll();
   }
 
   @Query(() => Reward, { name: 'reward' })
   findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.rewardService.findOne(id);
+    return //this.rewardService.findOne(id);
   }
 
   @Mutation(() => Reward)
   updateReward(@Args('updateRewardInput') updateRewardInput: UpdateRewardInput) {
-    return this.rewardService.update(updateRewardInput.id, updateRewardInput);
+    return //this.rewardService.update(updateRewardInput.id, updateRewardInput);
   }
 
   @Mutation(() => Reward)
   removeReward(@Args('id', { type: () => Int }) id: number) {
-    return this.rewardService.remove(id);
+    return //this.rewardService.remove(id);
   }
 }
