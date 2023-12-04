@@ -12,7 +12,7 @@ export class InscriptionService {
         return this.prisma.inscription.create({data})
     }
 
-    async findAll(params: {
+    async findAll(params?: {
         skip?: number
         take?: number
         cursor?: Prisma.InscriptionWhereUniqueInput
