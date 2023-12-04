@@ -12,7 +12,7 @@ export class RewardService {
         return this.prisma.reward.create({data});
     }
 
-    async findAll(params: {
+    async findAll(params?: {
         skip?: number;
         take?: number;
         cursor?: Prisma.RewardWhereUniqueInput;
