@@ -12,7 +12,7 @@ export class UserService {
         return this.prisma.user.create({data})
     }
 
-    async findAll(params: {
+    async findAll(params?: {
         skip?: number
         take?: number
         cursor?: Prisma.UserWhereUniqueInput
