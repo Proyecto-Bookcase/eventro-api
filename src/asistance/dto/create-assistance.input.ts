@@ -1,7 +1,13 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import {Field, ID, InputType} from '@nestjs/graphql';
+import {Prisma} from '@prisma/client';
 
 @InputType()
-export class CreateAssistanceInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+export class CreateAssistanceInput implements Partial<Prisma.AssistanceCreateInput> {
+
+    @Field()
+    date: Date;
+
+    @Field()
+    inscription_id: string;
+
 }

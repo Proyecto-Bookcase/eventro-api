@@ -12,7 +12,7 @@ export class AssistanceService {
         return this.prisma.assistance.create({data})
     }
 
-    async findAll(params: {
+    async findAll(params?: {
         skip?: number
         take?: number
         cursor?: Prisma.AssistanceWhereUniqueInput
