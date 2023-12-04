@@ -1,30 +1,39 @@
-import { Injectable } from '@nestjs/common';
-import { CreateRewardInput } from './dto/create-reward.input';
-import { UpdateRewardInput } from './dto/update-reward.input';
-import {PrismaClient} from "@prisma/client";
+import {Injectable} from '@nestjs/common';
+import {Prisma} from "@prisma/client";
 import {PrismaService} from "../prisma/prisma.service";
 
 @Injectable()
 export class RewardService {
 
-  constructor(private prisma: PrismaService) {}
-  create(createRewardInput: CreateRewardInput) {
-    return 'This action adds a new reward';
-  }
+    constructor(private prisma: PrismaService) {
+    }
 
-  findAll() {
-    return `This action returns all reward`;
-  }
+    async create(data: Prisma.RewardCreateInput) {
+        return this.prisma.reward.create({data});
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reward`;
-  }
+    async findAll(params: {
+        skip?: number;
+        take?: number;
+        cursor?: Prisma.RewardWhereUniqueInput;
+        where?: Prisma.RewardWhereInput;
+        orderBy?: Prisma.RewardOrderByWithRelationInput;
+    }) {
+        return this.prisma.reward.findMany(params)
+    }
 
-  update(id: number, updateRewardInput: UpdateRewardInput) {
-    return `This action updates a #${id} reward`;
-  }
+    async findOne(where: Prisma.RewardWhereUniqueInput) {
+        return this.prisma.reward.findUnique({where})
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} reward`;
-  }
+    update(params: {
+        where: Prisma.RewardWhereUniqueInput;
+        data: Prisma.RewardUpdateInput;
+    }) {
+        return this.prisma.reward.update(params)
+    }
+
+    remove(where: Prisma.RewardWhereUniqueInput) {
+        return this.prisma.reward.delete({where})
+    }
 }
