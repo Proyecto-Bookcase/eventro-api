@@ -25,5 +25,5 @@ export class User {
     inscriptions: Inscription[]
 
     @Field(() => [Reward], {nullable: "items"})
-    reward: Reward
+    rewards: Reward[]
 }

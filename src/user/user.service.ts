@@ -26,7 +26,7 @@ export class UserService {
         return this.prisma.user.findUnique({where});
     }
 
-    update(params: {
+    async update(params: {
         where: Prisma.UserWhereUniqueInput
         data: Prisma.UserUpdateInput
 
@@ -34,7 +34,11 @@ export class UserService {
         return this.prisma.user.update(params)
     }
 
-    remove(where: Prisma.UserWhereUniqueInput) {
+    async remove(where: Prisma.UserWhereUniqueInput) {
         return this.prisma.user.delete({where})
+    }
+
+    async getInscriptionsById(id: string) {
+        return this.prisma.inscription.findMany({where: {user: {id}}})
     }
 }

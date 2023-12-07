@@ -2,11 +2,10 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 import {Prisma} from "@prisma/client";
 import {PartialSchema} from "@apollo/server/src/plugin/schemaReporting/generated/operations";
 
-// @ts-ignore
 @InputType()
 export class CreateRewardInput {
 
-  @Field()
+  @Field({ })
   event_id: string
 
   @Field()

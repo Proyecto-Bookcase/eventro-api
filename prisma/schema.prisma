@@ -11,60 +11,48 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  name     String @unique
-  email    String @unique
-  password String
-
-  events      Event[]
-  Inscription Inscription[]
-  Reward      Reward[]
+  id           String        @id @default(uuid())
+  name         String        @unique
+  email        String        @unique
+  password     String
+  events       Event[]
+  inscriptions Inscription[]
+  rewards      Reward[]
 }
 
 model Event {
-  id String @id @default(uuid())
-
+  id           String        @id @default(uuid())
   organizer_id String
-  organizer    User   @relation(fields: [organizer_id], references: [id])
-
-  name        String
-  description String?
-  date        DateTime
-  location    String
-
-  Inscription Inscription[]
-  Reward      Reward[]
+  organizer    User          @relation(fields: [organizer_id], references: [id], onDelete: Cascade)
+  name         String
+  description  String?
+  date         DateTime
+  location     String
+  inscriptions Inscription[]
+  rewards      Reward[]
 }
 
 model Inscription {
-  id String @id @default(uuid())
-
-  user_id String
-  user    User   @relation(fields: [user_id], references: [id])
-
-  event_id String
-  event    Event  @relation(fields: [event_id], references: [id])
-
-  date DateTime
-
-  asistence Assistance?
+  id         String      @id @default(uuid())
+  user_id    String?
+  user       User?       @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  event_id   String
+  event      Event       @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  date       DateTime
+  assistance Assistance?
 }
 
 model Assistance {
-  id String @id @default(uuid())
-
+  id             String      @id @default(uuid())
   inscription_id String      @unique
-  inscription    Inscription @relation(fields: [inscription_id], references: [id])
-
-  date DateTime
+  inscription    Inscription @relation(fields: [inscription_id], references: [id], onDelete: Cascade)
+  date           DateTime
 }
 
 model Reward {
-  id String @id @default(uuid())
-
-  event_id String
-  event    Event  @relation(fields: [event_id], references: [id])
-
+  id        String @id @default(uuid())
+  event_id  String
+  event     Event  @relation(fields: [event_id], references: [id], onDelete: Cascade)
   winner_id String
-  winner    User   @relation(fields: [winner_id], references: [id])
+  winner    User   @relation(fields: [winner_id], references: [id], onDelete: Cascade)
 }

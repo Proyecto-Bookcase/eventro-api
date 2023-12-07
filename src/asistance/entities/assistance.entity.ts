@@ -4,12 +4,16 @@ import {Inscription} from "../../inscription/entities/inscription.entity";
 @ObjectType()
 export class Assistance {
 
+    /**
+     * Id del Asistente
+     */
     @Field(type => ID)
     id: string;
 
-    @Field(type => Inscription)
     inscription: Inscription
 
-    @Field()
+    /**
+     * aaa
+     */
     date: Date
 }
