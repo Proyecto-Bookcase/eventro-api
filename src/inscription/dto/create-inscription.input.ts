@@ -2,7 +2,7 @@ import {Field, InputType} from '@nestjs/graphql';
 import {Prisma} from '@prisma/client';
 
 @InputType()
-export class CreateInscriptionInput implements Partial<Prisma.InscriptionCreateInput> {
+export class CreateInscriptionInput implements Prisma.InscriptionCreateManyInput {
 
     @Field()
     date: Date;
@@ -11,6 +11,6 @@ export class CreateInscriptionInput implements Partial<Prisma.InscriptionCreateI
     event_id: string;
 
     @Field()
-    user_id: string;
+    user_email: string;
 
 }

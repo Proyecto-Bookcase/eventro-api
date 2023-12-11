@@ -20,8 +20,16 @@ export class UserResolver {
     }
 
     @Mutation(() => User)
-    createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-        return this.userService.create(createUserInput);
+    createUser(@Args('createUserInput') input: CreateUserInput) {
+        return this.userService.create({
+            name: input.name,
+            createdAt: input.createdAt,
+            role: {connect: {id: input.role_id}},
+            confirmed: input.confirmed,
+            updatedAt: input.updatedAt,
+            email: input.email,
+            password: input.password,
+        });
     }
 
     @Query(() => [User], {name: 'users'})
@@ -39,38 +47,46 @@ export class UserResolver {
 
     @Query(returns => User, {name: "profile"})
     @UseGuards(JWTAuthGuard)
-    getProfile(@CurrentUserPipe() {id}: any) {
-        return this.userService.findOne({id})
+    getProfile(@CurrentUserPipe() {email}: any) {
+        return this.userService.findOne({email})
     }
 
     @Mutation(() => User)
     updateUser(
-        @Args('id',) id: string,
-        @Args('updateUserInput') updateUserInput: UpdateUserInput
+        @Args('email',) email: string,
+        @Args('updateUserInput') input: UpdateUserInput
     ) {
         return this.userService.update({
-            where: {id},
-            data: updateUserInput
+            where: {email},
+            data: {
+                name: input.name,
+                createdAt: input.createdAt,
+                role: {connect: {id: input.role_id}},
+                confirmed: input.confirmed,
+                updatedAt: input.updatedAt,
+                email: input.email,
+                password: input.password,
+            }
         });
     }
 
     @Mutation(() => User)
-    removeUser(@Args('id') id: string) {
-        return this.userService.remove({id});
+    removeUser(@Args('email') email: string) {
+        return this.userService.remove({email});
     }
 
     @ResolveField(returns => [Event], {name: "events"})
     async getEvents(@Parent() user: User) {
-        return this.prisma.event.findMany({where: {organizer_id: user.id}})
+        return this.prisma.event.findMany({where: {organizer_email: user.email}})
     }
 
     @ResolveField(returns => [Inscription], {name: "inscriptions"})
     async getInscriptions(@Parent() user: User) {
-        return this.userService.getInscriptionsById(user.id)
+        return this.userService.getInscriptionsByEmail(user.email)
     }
 
     @ResolveField(returns => [Reward], {name: "rewards"})
-    async getRewards(@Parent() user: User) {
-        return this.prisma.reward.findMany({where: {winner_id: user.id}})
+    async getRewards(@Parent() {email}: User) {
+        return this.prisma.reward.findMany({where: {winner: {inscription: {user_email: email}}}})
     }
 }

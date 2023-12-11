@@ -17,12 +17,12 @@ export class InscriptionResolver {
     }
 
     @Mutation(() => Inscription)
-    async createInscription(@Args('createInscriptionInput') createInscriptionInput: CreateInscriptionInput) {
+    async createInscription(@Args('createInscriptionInput') input: CreateInscriptionInput) {
 
         return this.inscriptionService.create({
-            date: createInscriptionInput.date,
-            user: {connect: {id: createInscriptionInput.user_id}},
-            event: {connect: {id: createInscriptionInput.event_id}}
+            date: input.date,
+            user: {connect: {email: input.user_email}},
+            event: {connect: {id: input.event_id}}
         });
     }
 
@@ -39,14 +39,14 @@ export class InscriptionResolver {
     @Mutation(() => Inscription)
     async updateInscription(
         @Args('id') id: string,
-        @Args('updateInscriptionInput') {date, event_id, user_id}: UpdateInscriptionInput
+        @Args('updateInscriptionInput') input: UpdateInscriptionInput
     ) {
         return this.inscriptionService.update({
             where: {id},
             data: {
-                date,
-                event: {connect: {id: event_id}},
-                user: {connect: {id: user_id}},
+                date: input.date,
+                event: {connect: {id: input.event_id}},
+                user: {connect: {email: input.user_email}},
             }
         });
     }

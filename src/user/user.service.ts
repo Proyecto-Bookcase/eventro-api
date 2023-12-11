@@ -38,7 +38,7 @@ export class UserService {
         return this.prisma.user.delete({where})
     }
 
-    async getInscriptionsById(id: string) {
-        return this.prisma.inscription.findMany({where: {user: {id}}})
+    async getInscriptionsByEmail(email: string) {
+        return this.prisma.inscription.findMany({where: {user: {email}}})
     }
 }

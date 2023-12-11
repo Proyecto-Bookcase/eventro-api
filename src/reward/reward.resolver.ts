@@ -1,11 +1,9 @@
-import {Args, Mutation, Parent, Query, ResolveField, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 import {RewardService} from './reward.service';
 import {Reward} from './entities/reward.entity';
 import {CreateRewardInput} from './dto/create-reward.input';
 import {UpdateRewardInput} from './dto/update-reward.input';
-import {User} from "../user/entities/user.entity";
 import {PrismaService} from "../prisma/prisma.service";
-import {Event} from "../event/entities/event.entity";
 
 @Resolver(() => Reward)
 export class RewardResolver {
@@ -16,10 +14,11 @@ export class RewardResolver {
     }
 
     @Mutation(() => Reward)
-    createReward(@Args('createRewardInput') createRewardInput: CreateRewardInput) {
+    createReward(@Args('createRewardInput') input: CreateRewardInput) {
         return this.rewardService.create({
-            event: {connect: {id: createRewardInput.event_id}},
-            winner: {connect: {id: createRewardInput.winner_id}}
+            name: input.name,
+            description: input.description,
+            winner: {connect: {id: input.winner_id}}
         });
     }
 
@@ -36,13 +35,14 @@ export class RewardResolver {
     @Mutation(() => Reward)
     updateReward(
         @Args('id') id: string,
-        @Args('updateRewardInput') {winner_id, event_id}: UpdateRewardInput
+        @Args('updateRewardInput') input: UpdateRewardInput
     ) {
         return this.rewardService.update({
             where: {id},
             data: {
-                event: {connect: {id: event_id}},
-                winner: {connect: {id: winner_id}}
+                name: input.name,
+                description: input.description,
+                winner: {connect: {id: input.winner_id}}
             }
         });
     }
@@ -50,15 +50,5 @@ export class RewardResolver {
     @Mutation(() => Reward)
     removeReward(@Args('id') id: string) {
         return this.rewardService.remove({id});
-    }
-
-    @ResolveField(returns => User, {name: "winner"})
-    async getUser(@Parent() reward: Reward) {
-        return this.prisma.user.findFirst({where: {rewards: {some: {id: reward.id}}}})
-    }
-
-    @ResolveField(returns => Event, {name: "event"})
-    async getEvent(@Parent() reward: Reward) {
-        return this.prisma.event.findFirst({where: {rewards: {some: {id: reward.id}}}})
     }
 }

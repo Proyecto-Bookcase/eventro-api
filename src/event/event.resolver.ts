@@ -17,17 +17,18 @@ export class EventResolver {
     }
 
     @Mutation(() => Event)
-    async createEvent(@Args('createEventInput') createEventInput: CreateEventInput) {
+    async createEvent(@Args('createEventInput') input: CreateEventInput) {
         return await this.eventService.create({
-            name: createEventInput.name,
-            date: createEventInput.date,
-            description: createEventInput.description,
-            location: createEventInput.location,
-            organizer: {
-                connect: {
-                    id: createEventInput.organizer_id,
-                }
-            }
+            name: input.name,
+            organizer: {connect: {email: input.organizer_email}},
+            category: {connect: {name: input.category_name}},
+            description: input.description,
+            date: input.date,
+            location: input.location,
+            capacity: input.capacity,
+            active: input.active,
+            image: input.image,
+            deletedAt: input.deletedAt,
         });
     }
 
@@ -44,22 +45,21 @@ export class EventResolver {
     @Mutation(() => Event)
     updateEvent(
         @Args('id') id: string,
-        @Args('updateEventInput') {
-            name,
-            location,
-            description,
-            date,
-            organizer_id,
-        }: UpdateEventInput
+        @Args('updateEventInput') input: UpdateEventInput
     ) {
         return this.eventService.update({
             where: {id},
             data: {
-                name,
-                location,
-                description,
-                date,
-                organizer: {connect: {id: organizer_id}}
+                name: input.name,
+                organizer: {connect: {email: input.organizer_email}},
+                category: {connect: {name: input.category_name}},
+                description: input.description,
+                date: input.date,
+                location: input.location,
+                capacity: input.capacity,
+                active: input.active,
+                image: input.image,
+                deletedAt: input.deletedAt,
             }
         });
     }
@@ -81,6 +81,14 @@ export class EventResolver {
 
     @ResolveField(returns => [Reward], {name: "rewards"})
     async getRewards(@Parent() event: Event) {
-        return this.prisma.reward.findMany({where: {event_id: {equals: event.id}}})
+        return this.prisma.event.findUnique({
+            where: {id: event.id},
+            select: {
+                inscriptions: {
+                    where: {assistance: {isNot: null}},
+                    select: {assistance: true}
+                }
+            }
+        }).then(res => res.inscriptions.map(res => res.assistance))
     }
 }

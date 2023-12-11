@@ -9,6 +9,10 @@ import {PrismaModule} from './prisma/prisma.module';
 import {GraphQLModule} from "@nestjs/graphql";
 import {ApolloDriver, ApolloDriverConfig} from "@nestjs/apollo";
 import { AuthModule } from './auth/auth.module';
+import { CategoryModule } from './category/category.module';
+import { FeedbackModule } from './feedback/feedback.module';
+import { RoleModule } from './role/role.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
 
@@ -26,8 +30,13 @@ import { AuthModule } from './auth/auth.module';
             driver: ApolloDriver,
             autoSchemaFile: true,
             context: ({ req, res }) => ({ req, res }),
+            playground: false,
         }),
-        AuthModule
+        AuthModule,
+        CategoryModule,
+        FeedbackModule,
+        RoleModule,
+        NotificationModule
     ],
 
 })
