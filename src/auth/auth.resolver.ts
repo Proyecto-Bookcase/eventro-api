@@ -1,4 +1,4 @@
-import {Args, Mutation, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 import {AuthService} from "./auth.service";
 import {UseGuards} from "@nestjs/common";
 import {LocalAuthGuard} from "./guards/local.guard";
@@ -19,5 +19,10 @@ export class AuthResolver {
         @CurrentUserPipe() user: any
     ): Promise<LoginDto> {
         return this.authService.login(user)
+    }
+
+    @Query(returns => String)
+    hola() {
+        return 'Hola'
     }
 }
