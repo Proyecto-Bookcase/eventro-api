@@ -4,7 +4,6 @@ import {UseGuards} from "@nestjs/common";
 import {LocalAuthGuard} from "./guards/local.guard";
 import {LoginDto} from "./dto/login.dto";
 import {CurrentUserPipe} from "./pipes/current_user.pipe";
-import {JwtService} from "@nestjs/jwt";
 
 @Resolver()
 export class AuthResolver {

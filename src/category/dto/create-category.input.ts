@@ -1,7 +1,9 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+import { Prisma } from '@prisma/client';
 
 @InputType()
-export class CreateCategoryInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+export class CreateCategoryInput implements Prisma.CategoryCreateManyInput{
+
+    name: string;
+
 }

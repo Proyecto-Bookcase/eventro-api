@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNotificationInput } from './dto/create-notification.input';
-import { UpdateNotificationInput } from './dto/update-notification.input';
+import {PrismaService} from "../prisma/prisma.service";
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class NotificationService {
-  create(createNotificationInput: CreateNotificationInput) {
-    return 'This action adds a new notification';
+  constructor(private readonly prisma: PrismaService) {
   }
 
-  findAll() {
-    return `This action returns all notification`;
+  async create(data: Prisma.NotificationCreateInput) {
+    return this.prisma.notification.create({data})
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} notification`;
+  async findAll(
+      skip?: number,
+      take?: number,
+      cursor?: Prisma.NotificationWhereUniqueInput,
+      where?: Prisma.NotificationWhereInput,
+      orderBy?: Prisma.NotificationOrderByWithRelationInput
+  ) {
+    return this.prisma.notification.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy
+    })
   }
 
-  update(id: number, updateNotificationInput: UpdateNotificationInput) {
-    return `This action updates a #${id} notification`;
+  async findOne(where: Prisma.NotificationWhereUniqueInput) {
+    return this.prisma.notification.findUnique({where})
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} notification`;
+  async update(
+      where: Prisma.NotificationWhereUniqueInput,
+      data: Prisma.NotificationUpdateManyMutationInput
+  ) {
+    return this.prisma.notification.update({where, data})
+  }
+
+  async remove(where: Prisma.NotificationWhereUniqueInput) {
+    return this.prisma.notification.delete({where})
   }
 }

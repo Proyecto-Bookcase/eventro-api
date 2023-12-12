@@ -1,26 +1,44 @@
-import { Injectable } from '@nestjs/common';
-import { CreateFeedbackInput } from './dto/create-feedback.input';
-import { UpdateFeedbackInput } from './dto/update-feedback.input';
+import {Injectable} from '@nestjs/common';
+import {PrismaService} from "../prisma/prisma.service";
+import {Prisma} from '@prisma/client';
 
 @Injectable()
 export class FeedbackService {
-  create(createFeedbackInput: CreateFeedbackInput) {
-    return 'This action adds a new feedback';
-  }
+    constructor(private readonly prisma: PrismaService) {
+    }
 
-  findAll() {
-    return `This action returns all feedback`;
-  }
+    async create(data: Prisma.FeedbackCreateInput) {
+        return this.prisma.feedback.create({data})
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} feedback`;
-  }
+    async findAll(
+        skip?: number,
+        take?: number,
+        cursor?: Prisma.FeedbackWhereUniqueInput,
+        where?: Prisma.FeedbackWhereInput,
+        orderBy?: Prisma.FeedbackOrderByWithRelationInput
+    ) {
+        return this.prisma.feedback.findMany({
+            skip,
+            take,
+            cursor,
+            where,
+            orderBy
+        })
+    }
 
-  update(id: number, updateFeedbackInput: UpdateFeedbackInput) {
-    return `This action updates a #${id} feedback`;
-  }
+    async findOne(where: Prisma.FeedbackWhereUniqueInput) {
+        return this.prisma.feedback.findUnique({where})
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} feedback`;
-  }
+    async update(
+        where: Prisma.FeedbackWhereUniqueInput,
+        data: Prisma.FeedbackUpdateManyMutationInput
+    ) {
+        return this.prisma.feedback.update({where, data})
+    }
+
+    async remove(where: Prisma.FeedbackWhereUniqueInput) {
+        return this.prisma.feedback.delete({where})
+    }
 }

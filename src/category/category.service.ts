@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCategoryInput } from './dto/create-category.input';
-import { UpdateCategoryInput } from './dto/update-category.input';
+import {Injectable} from '@nestjs/common';
+import {Prisma} from "@prisma/client";
+import {PrismaService} from "../prisma/prisma.service";
 
 @Injectable()
 export class CategoryService {
-  create(createCategoryInput: CreateCategoryInput) {
-    return 'This action adds a new category';
-  }
 
-  findAll() {
-    return `This action returns all category`;
-  }
+    constructor(private readonly prisma: PrismaService) {
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
-  }
+    async create(data: Prisma.CategoryCreateInput) {
+        return this.prisma.category.create({data})
+    }
 
-  update(id: number, updateCategoryInput: UpdateCategoryInput) {
-    return `This action updates a #${id} category`;
-  }
+    async findAll(
+        skip?: number,
+        take?: number,
+        cursor?: Prisma.CategoryWhereUniqueInput,
+        where?: Prisma.CategoryWhereInput,
+        orderBy?: Prisma.CategoryOrderByWithRelationInput
+    ) {
+        return this.prisma.category.findMany({
+            skip,
+            take,
+            cursor,
+            where,
+            orderBy
+        })
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
-  }
+    async findOne(where: Prisma.CategoryWhereUniqueInput) {
+        return this.prisma.category.findUnique({where})
+    }
+
+    async update(
+        where: Prisma.CategoryWhereUniqueInput,
+        data: Prisma.CategoryUpdateManyMutationInput
+    ) {
+        return this.prisma.category.update({where, data})
+    }
+
+    async remove(where: Prisma.CategoryWhereUniqueInput) {
+        return this.prisma.category.delete({where})
+    }
 }
