@@ -1,13 +1,17 @@
-import {Field, ID, InputType} from '@nestjs/graphql';
+import {InputType} from '@nestjs/graphql';
 import {Prisma} from '@prisma/client';
 
 @InputType()
-export class CreateAssistanceInput implements Partial<Prisma.AssistanceCreateInput> {
+export class CreateAssistanceInput implements Partial<Prisma.AssistanceCreateManyInput> {
 
-    @Field()
+    /**
+     * Fecha de asistencia al Evento
+     */
     date: Date;
 
-    @Field()
+    /**
+     * Id de la inscripción
+     */
     inscription_id: string;
 
 }

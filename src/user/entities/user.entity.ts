@@ -1,7 +1,5 @@
 import {Field, ID, ObjectType,} from '@nestjs/graphql';
-import {Inscription} from "../../inscription/entities/inscription.entity";
-import {Reward} from "../../reward/entities/reward.entity";
-import {Event} from "../../event/entities/event.entity";
+import {Role} from "../role/entities/role.entity";
 
 @ObjectType()
 export class User {
@@ -9,21 +7,39 @@ export class User {
     @Field(type => ID)
     id: string
 
-    @Field()
-    name: string
+    /**
+     * Email del Usuario
+     */
+    email: string;
 
-    @Field()
-    email: string
+    /**
+     * Nombre del Usuario
+     */
+    name: string;
 
-    @Field()
-    password: string
+    /**
+     * Contraseña del Usuario
+     */
+    password: string;
 
-    @Field(() => [Event], {nullable: "items"})
-    events: Event[]
+    /**
+     * Si el email del usuario está confirmado
+     */
+    confirmed?: boolean;
 
-    @Field(() => [Inscription], {nullable: "items"})
-    inscriptions: Inscription[]
+    /**
+     * Fecha de Creación
+     */
+    createdAt?: Date;
 
-    @Field(() => [Reward], {nullable: "items"})
-    reward: Reward
+    /**
+     * Fecha de Última actualización
+     */
+    updatedAt?: Date;
+
+    /**
+     * Rol del usuario
+     */
+    @Field(() => Role)
+    role: Role;
 }

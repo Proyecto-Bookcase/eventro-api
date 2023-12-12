@@ -11,60 +11,98 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  name     String @unique
-  email    String @unique
-  password String
+  name          String?        @unique
+  email         String         @id
+  confirmed     Boolean        @default(false)
+  password      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  role_id       String
+  role          Role           @relation(fields: [role_id], references: [id])
+  events        Event[]
+  inscriptions  Inscription[]
+  notifications Notification[]
 
-  events      Event[]
-  Inscription Inscription[]
-  Reward      Reward[]
+  @@index([name, email])
+}
+
+model Role {
+  id    String @id @default(uuid())
+  name  String
+  users User[]
 }
 
 model Event {
-  id String @id @default(uuid())
+  id              String        @id @default(uuid())
+  organizer_email String
+  organizer       User          @relation(fields: [organizer_email], references: [email], onDelete: Cascade)
+  category_name   String
+  category        Category      @relation(references: [name], fields: [category_name], onDelete: Restrict)
+  name            String
+  description     String?
+  date            DateTime
+  location        String
+  capacity        Int?
+  active          Boolean       @default(true)
+  image           String?
+  deletedAt       DateTime?
+  inscriptions    Inscription[]
+  Feedback        Feedback[]
 
-  organizer_id String
-  organizer    User   @relation(fields: [organizer_id], references: [id])
+  @@index([date])
+}
 
-  name        String
-  description String?
-  date        DateTime
-  location    String
+model Category {
+  name   String  @id
+  events Event[]
+}
 
-  Inscription Inscription[]
-  Reward      Reward[]
+model Feedback {
+  id            String     @id @default(uuid())
+  event_id      String
+  event         Event      @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  assistance_id String
+  assistance    Assistance @relation(fields: [assistance_id], references: [id], onDelete: Cascade)
+  comment       String
+  date          DateTime   @updatedAt
+  ranking       Int?
 }
 
 model Inscription {
-  id String @id @default(uuid())
+  id         String      @id @default(uuid())
+  user_email String?
+  user       User?       @relation(fields: [user_email], references: [email], onDelete: SetNull)
+  event_id   String
+  event      Event       @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  date       DateTime
+  assistance Assistance?
 
-  user_id String
-  user    User   @relation(fields: [user_id], references: [id])
-
-  event_id String
-  event    Event  @relation(fields: [event_id], references: [id])
-
-  date DateTime
-
-  asistence Assistance?
+  @@index([date])
 }
 
 model Assistance {
-  id String @id @default(uuid())
-
+  id             String      @id @default(uuid())
   inscription_id String      @unique
   inscription    Inscription @relation(fields: [inscription_id], references: [id])
-
-  date DateTime
+  date           DateTime?
+  reward         Reward?
+  Feedback       Feedback[]
 }
 
 model Reward {
-  id String @id @default(uuid())
+  id          String     @id @default(uuid())
+  name        String?
+  winner_id   String     @unique
+  winner      Assistance @relation(references: [id], fields: [winner_id])
+  description String?
+}
 
-  event_id String
-  event    Event  @relation(fields: [event_id], references: [id])
-
-  winner_id String
-  winner    User   @relation(fields: [winner_id], references: [id])
+model Notification {
+  id         String   @id @default(uuid())
+  user_email String
+  user       User     @relation(fields: [user_email], references: [email])
+  tittle     String
+  content    String?
+  reason     String?
+  date       DateTime @default(now())
 }

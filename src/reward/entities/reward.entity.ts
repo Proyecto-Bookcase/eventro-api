@@ -1,6 +1,5 @@
 import {Field, ID, ObjectType} from '@nestjs/graphql';
-import {User} from "../../user/entities/user.entity";
-import {Event} from "../../event/entities/event.entity";
+import {Assistance} from "../../asistance/entities/assistance.entity";
 
 @ObjectType()
 export class Reward {
@@ -8,9 +7,21 @@ export class Reward {
     @Field(type => ID)
     id: string;
 
-    @Field(type => Event)
-    event: Event
+    /**
+     * Nombre del Premio
+     */
+    @Field({nullable: true})
+    name?: string
 
-    @Field(type => User)
-    winner: User
+    /**
+     * Descripción del Premio
+     */
+    @Field({nullable: true})
+    description?: string
+
+    /**
+     * Asistencia del Ganador del Premio
+     */
+    @Field(() => Assistance)
+    winner: Assistance
 }

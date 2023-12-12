@@ -1,15 +1,24 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import {Field, InputType} from '@nestjs/graphql';
 import {Prisma} from "@prisma/client";
-import {PartialSchema} from "@apollo/server/src/plugin/schemaReporting/generated/operations";
 
-// @ts-ignore
 @InputType()
-export class CreateRewardInput {
+export class CreateRewardInput implements Prisma.RewardCreateManyInput {
 
-  @Field()
-  event_id: string
+    /**
+     * Nombre del Premio
+     */
+    @Field({nullable: true})
+    name?: string
 
-  @Field()
-  winner_id: string
+    /**
+     * Descripción del Premio
+     */
+    @Field({nullable: true})
+    description?: string
+
+    /**
+     * Id de la asistencia del Ganador del Premio
+     */
+    winner_id: string
 
 }

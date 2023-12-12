@@ -1,19 +1,24 @@
-import {Args, Int, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 import {RewardService} from './reward.service';
 import {Reward} from './entities/reward.entity';
 import {CreateRewardInput} from './dto/create-reward.input';
 import {UpdateRewardInput} from './dto/update-reward.input';
+import {PrismaService} from "../prisma/prisma.service";
 
 @Resolver(() => Reward)
 export class RewardResolver {
-    constructor(private readonly rewardService: RewardService) {
+    constructor(
+        private readonly rewardService: RewardService,
+        private readonly prisma: PrismaService
+    ) {
     }
 
     @Mutation(() => Reward)
-    createReward(@Args('createRewardInput') createRewardInput: CreateRewardInput) {
+    createReward(@Args('createRewardInput') input: CreateRewardInput) {
         return this.rewardService.create({
-            event: {connect: {id: createRewardInput.event_id}},
-            winner: {connect: {id: createRewardInput.winner_id}}
+            name: input.name,
+            description: input.description,
+            winner: {connect: {id: input.winner_id}}
         });
     }
 
@@ -30,13 +35,14 @@ export class RewardResolver {
     @Mutation(() => Reward)
     updateReward(
         @Args('id') id: string,
-        @Args('updateRewardInput') {winner_id, event_id}: UpdateRewardInput
+        @Args('updateRewardInput') input: UpdateRewardInput
     ) {
         return this.rewardService.update({
             where: {id},
             data: {
-                event: {connect: {id: event_id}},
-                winner: {connect: {id: winner_id}}
+                name: input.name,
+                description: input.description,
+                winner: {connect: {id: input.winner_id}}
             }
         });
     }

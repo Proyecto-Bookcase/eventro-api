@@ -9,15 +9,26 @@ export class Inscription {
     @Field(type => ID)
     id: string;
 
-    @Field(type => User)
+    /**
+     * Usuario que se inscribe al evento
+     */
+    @Field(type => User, {nullable: true})
     user: User
 
+    /**
+     * Evento al que corresponde esta inscriptión
+     */
     @Field(type => Event)
     event: Event
 
-    @Field()
+    /**
+     * Fecha de la inscripción
+     */
     date: Date
 
+    /**
+     * Asistencia al evento
+     */
     @Field(type => Assistance, {nullable: true})
     assistance: Assistance
 }

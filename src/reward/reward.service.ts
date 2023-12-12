@@ -30,6 +30,9 @@ export class RewardService {
         where: Prisma.RewardWhereUniqueInput;
         data: Prisma.RewardUpdateInput;
     }) {
+
+        console.log(params.data)
+
         return this.prisma.reward.update(params)
     }
 
