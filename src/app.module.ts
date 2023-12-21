@@ -26,7 +26,7 @@ import { NotificationModule } from './notification/notification.module';
     PrismaModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: true,
+      autoSchemaFile: "schema.graphql",
       context: ({ req, res }) => ({ req, res }),
       playground: true,
     }),

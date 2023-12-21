@@ -33,6 +33,20 @@ export class UserResolver {
         });
     }
 
+    @UseGuards(JWTAuthGuard)
+    @Mutation(() => Inscription )
+    async subscribe(
+        @Args('event_id') event_id: string,
+        @CurrentUserPipe() {email}: any,
+    ) {
+
+        const result = await this.userService.subscribeUserToAnEvent(email, event_id)
+
+        console.log(result)
+
+        return result
+    }
+
     @Query(() => [User], {name: 'users'})
     async findAll(@Args('page', {type: () => Int, defaultValue: 1}) page: number) {
 
