@@ -1,5 +1,5 @@
 import {Field, ID, ObjectType} from '@nestjs/graphql';
-import {Event} from "../../../event/entities/event.entity";
+import {User} from "../../entities/user.entity";
 
 @ObjectType()
 export class Role {
@@ -9,7 +9,7 @@ export class Role {
 
     name: string
 
-    @Field(() => [Event])
-    events: Event
+    @Field(() => [User])
+    users: User[]
 
 }

@@ -5,6 +5,7 @@ import {CreateRoleInput} from './dto/create-role.input';
 import {UpdateRoleInput} from './dto/update-role.input';
 import {Event} from "../../event/entities/event.entity";
 import {PrismaService} from "../../prisma/prisma.service";
+import {User} from "../entities/user.entity";
 
 @Resolver(() => Role)
 export class RoleResolver {
@@ -43,8 +44,8 @@ export class RoleResolver {
         return this.roleService.remove({id});
     }
 
-    @ResolveField(returns => [Event], {name: 'events'})
-    async getEvents(@Parent() {id}: Role) {
+    @ResolveField(returns => [User], {name: 'users'})
+    async getUsers(@Parent() {id}: Role) {
 
         const res = await this.prisma.role.findUnique({
             where: {id},

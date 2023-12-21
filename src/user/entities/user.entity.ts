@@ -3,8 +3,6 @@ import { Role } from '../role/entities/role.entity';
 
 @ObjectType()
 export class User {
-  @Field((type) => ID)
-  id: string;
 
   /**
    * Email del Usuario

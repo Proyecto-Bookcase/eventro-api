@@ -10,6 +10,7 @@ import {Event} from "../event/entities/event.entity";
 import {UseGuards} from "@nestjs/common";
 import {JWTAuthGuard} from "../auth/guards/jwt.guard";
 import {CurrentUserPipe} from "../auth/pipes/current_user.pipe";
+import {Role} from "./role/entities/role.entity";
 
 @Resolver(() => User)
 export class UserResolver {
@@ -73,6 +74,14 @@ export class UserResolver {
     @Mutation(() => User)
     removeUser(@Args('email') email: string) {
         return this.userService.remove({email});
+    }
+
+    @ResolveField(() => Role, {name: "role"})
+    async getRole(@Parent() user: User) {
+        return this.prisma.user.findUnique({
+            where: {email: user.email},
+            select: {role_id: true}
+        }).role()
     }
 
     @ResolveField(returns => [Event], {name: "events"})
