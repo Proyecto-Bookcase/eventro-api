@@ -28,7 +28,6 @@ import { NotificationModule } from './notification/notification.module';
       driver: ApolloDriver,
       autoSchemaFile: "schema.graphql",
       context: ({ req, res }) => ({ req, res }),
-      playground: true,
     }),
     AuthModule,
     CategoryModule,

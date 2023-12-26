@@ -32,7 +32,7 @@ export class AuthResolver {
     }
 
     @Mutation(returns => LoginDto)
-    async logon(@Args('userDtoCreate', {type: () => CreateUserInput}) userDtoCreate: CreateUserInput) {
+    async signup(@Args('userDtoCreate', {type: () => CreateUserInput}) userDtoCreate: CreateUserInput) {
 
         const newUser = await this.userService.create({
             name: userDtoCreate.name,
